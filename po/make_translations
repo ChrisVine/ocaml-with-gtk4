@@ -1,0 +1,20 @@
+#!/bin/sh
+
+# to generate a example-prog.pot file, do 'make pot' in the top
+# directory.
+
+# to add a translation, add the language to LINGUAS (languages
+# separated by spaces), copy example-prog.pot to a po file for the
+# language, and then run this script in this directory.
+
+for file in `cat LINGUAS`
+do
+
+if ! [ -d ../locale/$file/LC_MESSAGES ]; then
+  mkdir -p ../locale/$file/LC_MESSAGES
+fi
+
+msgfmt $file.po
+mv messages.mo ../locale/$file/LC_MESSAGES/example-prog.mo
+
+done

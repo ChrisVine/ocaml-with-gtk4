@@ -1,0 +1,8 @@
+(executables
+ (names discover_gtk discover_libintl)
+ (modes (best exe))
+ (libraries dune-configurator))
+
+(rule
+ (targets config.h)
+ (action (run ./discover_libintl.exe)))

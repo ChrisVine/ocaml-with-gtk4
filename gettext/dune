@@ -1,0 +1,14 @@
+;; gettext on linux distributions includes gettext in glibc, so no
+;; special linking flags are needed for it below.  On other
+;; distributions you may need a c_library_flags field in the library
+;; stanza.
+
+(library
+ (name gettext)
+ (modes best)
+ (modules gettext)
+ (foreign_stubs
+  (language c)
+  (names gettext)
+  (include_dirs ../config) ;; for config.h
+  (flags :standard -std=c99 -O2 -I. (:include config.locale))))
