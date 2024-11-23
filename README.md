@@ -7,7 +7,7 @@ GTK-4, employing OCaml's FFI for C libraries.
 The code is heavily commented, and I keep it as a reminder to myself
 of the basics when considering a new project.  As it might be handy as
 an example for others looking for a GUI for OCaml programs, it is
-released under the Unlicense (see the COPYRIGHT file for details,
+released under the Unlicense (see the LICENSE file for details,
 including disclaimers).
 
 No individual OCaml wrapper for GTK-4 is provided.  The schema adopted
