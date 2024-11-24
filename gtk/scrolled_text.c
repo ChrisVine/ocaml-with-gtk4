@@ -7,6 +7,8 @@
 #define CAML_NAME_SPACE 1
 #include <caml/mlvalues.h>  // for value/type conversions (ocaml->C and C->ocaml)
 
+#include <glib-object.h>
+
 #include <scrolled_text.h>
 
 GtkWidget* scrolled_text_new(void) {
@@ -56,7 +58,7 @@ CAMLprim value scrolled_text_append_stub(value scrolled_text, value text) {
   // and String_val do not allocate - instead they just do bit
   // twiddling
   GtkScrolledWindow* c_scrolled_text =
-    *((GtkScrolledWindow**)Data_abstract_val(scrolled_text));
+    GTK_SCROLLED_WINDOW(*((GObject**)Data_abstract_val(scrolled_text)));
   const char* c_text = String_val(text);
   scrolled_text_append(c_scrolled_text, c_text);
   return Val_unit;

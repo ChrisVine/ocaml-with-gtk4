@@ -14,6 +14,8 @@
 #include <caml/threads.h>   // for caml_release_runtime_system() and
                             // caml_acquire_runtime_system()
 
+#include <glib-object.h>
+
 #include <mainwindow.h>
 #include <scrolled_text.h>
 
@@ -24,9 +26,11 @@
    again.  This is probably not an issue with CAMLparam0 but to avoid
    any debate we provide a wrapper function which acquires the
    runtime. */
-static void button_clicked_func_impl(GtkScrolledWindow* scrolled_text) {
+static void button_clicked_func_impl(gpointer data) {
   CAMLparam0();
   CAMLlocal1(v_scrolled_text);
+
+  GtkScrolledWindow* scrolled_text = GTK_SCROLLED_WINDOW(data);
   v_scrolled_text = caml_alloc(1, Abstract_tag);
   *((GtkScrolledWindow**)Data_abstract_val(v_scrolled_text)) = scrolled_text;
 
@@ -57,9 +61,11 @@ static void button_clicked_func(GtkButton* button,
 
 /* see comments on button_clicked_func_impl() for why we have a
    wrapper for this function */
-static void win_task1_func_impl(GtkScrolledWindow* scrolled_text) {
+static void win_task1_func_impl(gpointer data) {
   CAMLparam0();
   CAMLlocal1(v_scrolled_text);
+
+  GtkScrolledWindow* scrolled_text = GTK_SCROLLED_WINDOW(data);
   v_scrolled_text = caml_alloc(1, Abstract_tag);
   *((GtkScrolledWindow**)Data_abstract_val(v_scrolled_text)) = scrolled_text;
 
@@ -90,9 +96,11 @@ static void win_task1_func(GSimpleAction* act, GVariant* var,
 
 /* see comments on button_clicked_func_impl() for why we have a
    wrapper for this function */
-static void win_task2_func_impl(GtkLabel* label) {
+static void win_task2_func_impl(gpointer data) {
   CAMLparam0();
   CAMLlocal1(v_label);
+
+  GtkLabel* label = GTK_LABEL(data);
   v_label = caml_alloc(1, Abstract_tag);
   *((GtkLabel**)Data_abstract_val(v_label)) = label;
 
@@ -184,10 +192,9 @@ GtkWidget* mainwindow_new(GtkApplication* app) {
 CAMLprim value set_label_text_stub(value label, value num) {
   // we do not need to use the CAMLparam/CAMLreturn macros to obtain
   // protection from the garbage collector here as Data_abstract_val
-  // and String_val do not allocate - instead they just do bit
-  // twiddling
+  // and Int_val do not allocate - instead they just do bit twiddling
   GtkLabel* c_label =
-    *((GtkLabel**)Data_abstract_val(label));
+    GTK_LABEL(*((GObject**)Data_abstract_val(label)));
   char buf[32];
   snprintf(buf, 32, "Task2: %d", Int_val(num));
   gtk_label_set_text(c_label, buf);
