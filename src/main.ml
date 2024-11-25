@@ -82,4 +82,4 @@ let _ =
 
 (************************* start GTK *************************)
 
-  Gtk.start (Array.length Sys.argv) Sys.argv
+  exit (Gtk.start (Array.length Sys.argv) Sys.argv)
