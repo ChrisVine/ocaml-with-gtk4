@@ -53,9 +53,9 @@ static void button_clicked_func_impl(gpointer data) {
 }
 
 static void button_clicked_func(GtkButton* button,
-				GtkScrolledWindow* scrolled_text) {
+				gpointer data) {
   caml_acquire_runtime_system();
-  button_clicked_func_impl(scrolled_text);
+  button_clicked_func_impl(data);
   caml_release_runtime_system();
 }
 
@@ -88,9 +88,9 @@ static void win_task1_func_impl(gpointer data) {
 }
 
 static void win_task1_func(GSimpleAction* act, GVariant* var,
-			  gpointer scrolled_text) {
+			  gpointer data) {
   caml_acquire_runtime_system();
-  win_task1_func_impl(scrolled_text);
+  win_task1_func_impl(data);
   caml_release_runtime_system();
 }
 
@@ -123,9 +123,9 @@ static void win_task2_func_impl(gpointer data) {
 }
 
 static void win_task2_func(GSimpleAction* act, GVariant* var,
-			  gpointer label) {
+			  gpointer data) {
   caml_acquire_runtime_system();
-  win_task2_func_impl(label);
+  win_task2_func_impl(data);
   caml_release_runtime_system();
 }
 

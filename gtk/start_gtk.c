@@ -17,7 +17,7 @@
 #include <caml/threads.h>   // for caml_release_runtime_system() and
                             // caml_acquire_runtime_system()
 
-#include "mainwindow.h"
+#include <mainwindow.h>
 
 
 static void app_quit_func(GSimpleAction* act, GVariant* var, gpointer app) {
@@ -66,12 +66,12 @@ static void startup(GApplication* app) {
 
 static void activate(GtkApplication* app, gpointer data) {
   GtkWindow* window = gtk_application_get_active_window(app);
-  if (window) gtk_window_present(window);
+  if (window != NULL) gtk_window_present(window);
   else {
-    GtkWidget* window = mainwindow_new(app);
-    gtk_window_set_title(GTK_WINDOW(window), "example-prog");
-    gtk_window_set_default_size(GTK_WINDOW(window), 600, 400);
-    gtk_window_present(GTK_WINDOW(window));
+    window = (GtkWindow*)mainwindow_new(app);
+    gtk_window_set_title(window, "example-prog");
+    gtk_window_set_default_size(window, 600, 400);
+    gtk_window_present(window);
   }
 }
 
