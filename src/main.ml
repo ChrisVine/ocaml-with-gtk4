@@ -11,10 +11,6 @@ let _ =
      event loop has started everything happens by way of callbacks
      executed in the event loop *)
  
-  Callback.register "app-item1-cb"
-                    (fun () -> Printf.printf "App item1 clicked\n" ;
-                               flush stdout) ;
-
   (* have the button print to a ScrolledText.t widget *)
   let on_clicked =
     let counter = ref 0 in
