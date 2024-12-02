@@ -49,13 +49,6 @@ let _ =
        we can instead apply 'ref' in the worker thread immediately
        before it applies Dispatcher.post to 'disp').
 
-       For a different approach, it would be possible to hold the
-       underlying GTK widget in a custom block instead of an abstract
-       block, and to unref it in the custom block's finalizer.  Whilst
-       that would be less prone to programmer error, there are
-       downsides to keeping an unreachable GTK widget alive until a
-       garbage collection occurs.
-
        This is a demo.  Applying ref/unref here is in this case
        unnecessary because the Scrolled_text widget stays valid
        throughout program execution anyway. *)
