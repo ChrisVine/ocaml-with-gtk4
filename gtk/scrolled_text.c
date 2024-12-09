@@ -7,6 +7,7 @@
 #define CAML_NAME_SPACE 1
 #include <caml/mlvalues.h>  // for value/type conversions (ocaml->C and C->ocaml)
 
+#include <glib.h>
 #include <glib-object.h>
 
 #include <scrolled_text.h>
@@ -59,7 +60,8 @@ CAMLprim value scrolled_text_append_stub(value scrolled_text, value text) {
   // twiddling
   GtkScrolledWindow* c_scrolled_text =
     GTK_SCROLLED_WINDOW(*((GObject**)Data_abstract_val(scrolled_text)));
-  const char* c_text = String_val(text);
+  const char* c_text = g_strdup(String_val(text));
   scrolled_text_append(c_scrolled_text, c_text);
+  g_free((void*)c_text);
   return Val_unit;
 }
