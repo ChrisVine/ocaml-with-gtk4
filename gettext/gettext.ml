@@ -9,11 +9,12 @@
    (which would be interpreted as the beginning of a comment).
    Because xgettext in lisp mode looks for a form in parentheses where
    the first word is 'gettext' and the second is a string, it is also
-   necessary to provide 'gettext' as an alias for Gettext.gettext.
-   Note that ocaml comments (such as this comment block) are not
-   recognised as comments and therefore will be scanned, so avoid a
-   gettext S-expression appearing in comments if text which is not in
-   fact for translation is to be excluded from the pot file. *)
+   necessary to provide 'gettext' as an alias for Gettext.gettext or
+   use the form 'Gettext.(gettext "...")'.  Note that ocaml comments
+   (such as this comment block) are not recognised as comments and
+   therefore will be scanned, so avoid a gettext S-expression
+   appearing in comments if text which is not in fact for translation
+   is to be excluded from the pot file. *)
 
 external setup: unit -> bool = "setup_stub"
 external gettext: string-> string = "gettext_stub"
