@@ -18,8 +18,9 @@ memory-safe world of OCaml.  The code includes examples of how an
 OCaml worker thread can have its continuation execute in the GTK
 thread (the main program thread).
 
-The program requires OCaml >= 4.08 and dune >= 3.0, and some version
-of the GTK-4 C library to be installed.  It will compile with OCaml-5.
+Compilation of the program requires OCaml >= 4.08 and dune >= 3.0 to
+be installed, and also the GTK-4 >= 4.0.0 C library.  It will compile
+with OCaml-5.
 
 The first time the program is compiled, adjust the install directories
 and permissions in `Makefile` as necessary.  Then if libintl is
