@@ -76,7 +76,7 @@ static void activate(GtkApplication* app, gpointer data) {
 }
 
 static int start_gtk(int c_argc, char** c_argv) {
-  GtkApplication* app = gtk_application_new ("org.cvine.myprog",
+  GtkApplication* app = gtk_application_new ("org.cvine.example_prog",
 					     G_APPLICATION_DEFAULT_FLAGS);
   g_signal_connect(app, "activate", G_CALLBACK(activate), NULL);
   g_signal_connect(app, "startup", G_CALLBACK(startup), NULL);
