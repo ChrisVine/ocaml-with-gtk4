@@ -14,11 +14,12 @@ let _ =
   (* have the button print to a ScrolledText.t widget *)
   let on_clicked =
     let counter = ref 0 in
-    fun st -> incr counter ;
-              let msg = Printf.sprintf "\nOCaml: %s%d"
-                          Gettext.(gettext "Clicked: ")
-                          !counter in
-              Gtk.Scrolled_text.append st msg in
+    fun (st:Gtk.Scrolled_text.t) ->
+    incr counter ;
+    let msg = Printf.sprintf "\nOCaml: %s%d"
+                Gettext.(gettext "Clicked: ")
+                !counter in
+    Gtk.Scrolled_text.append st msg in
   Callback.register "button-clicked-cb" on_clicked ;
 
   (* have a menu activate callback carry out a task in a Thread.t
@@ -35,7 +36,7 @@ let _ =
         (fun (st, msg) -> Gtk.Scrolled_text.append st msg ;
                           Gtk.(Object.unref (Scrolled_text.to_object st)))
         "st-disp" in
-    fun st ->
+    fun (st:Gtk.Scrolled_text.t) ->
     (* We apply 'ref' here so that 'st' remains valid when the main
        loop accesses it later.  This means that we should never apply
        Dispatcher.close to 'disp' unless all posts have executed, or
@@ -73,7 +74,7 @@ let _ =
         (fun (lbl, num) -> Gtk.Mainwindow.set_label_text lbl num ;
                            Gtk.(Object.unref (Mainwindow.label_to_object lbl)))
         "label-disp" in
-    fun lbl ->
+    fun (lbl:Gtk.Mainwindow.label) ->
     incr counter ;
     Gtk.(Object.ref (Mainwindow.label_to_object lbl)) ;
     ignore @@ Thread.(create
