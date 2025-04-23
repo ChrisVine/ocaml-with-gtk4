@@ -86,14 +86,14 @@ static int start_gtk(int c_argc, char** c_argv) {
   return ret;
 }
 
-CAMLprim value start_gtk_stub(value argc, value argv){
+CAMLprim value start_gtk_stub(value argv) {
   // using the ocaml macros to protect against garbage collection is
   // probably overzealous.  Nothing calls ocaml functions here capable
-  // of causing a collection.  String_val and Field are just
-  // bit-twiddling C macros.
-  CAMLparam2(argc, argv);
+  // of causing a collection.  Wosize_val, String_val and Field are
+  // just bit-twiddling C macros.
+  CAMLparam1(argv);
 
-  int length = Int_val(argc);
+  int length = Wosize_val(argv);
   char* arr[length + 1];
   int index = 0;
   for (index = 0; index < length; ++index) {

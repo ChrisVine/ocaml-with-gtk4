@@ -1,4 +1,4 @@
-external start: int-> string array -> int = "start_gtk_stub"
+external start: string array -> int = "start_gtk_stub"
 
 module Mainloop = Mainloop
 module Mainwindow = Mainwindow
