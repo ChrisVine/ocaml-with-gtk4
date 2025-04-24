@@ -99,7 +99,7 @@ CAMLprim value start_gtk_stub(value argv) {
   for (index = 0; index < length; ++index) {
     arr[index] = g_strdup(String_val(Field(argv, index)));
   }
-  arr[length] = 0;
+  arr[length] = NULL;
   caml_release_runtime_system();
   int ret = start_gtk(length, arr);
   caml_acquire_runtime_system();
