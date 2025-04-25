@@ -11,5 +11,5 @@ let () =
            | Error msg -> failwith msg
            | Ok deps -> deps
       in
-      C.Flags.write_sexp "config.cflags" conf.cflags ;
-      C.Flags.write_sexp "config.libs" conf.libs )
+      C.Flags.write_sexp "config_gtk.cflags" conf.cflags ;
+      C.Flags.write_sexp "config_gtk.libs" conf.libs )

@@ -4,5 +4,9 @@
  (libraries dune-configurator))
 
 (rule
- (targets config.h)
+ (targets config.h config_intl.libs)
  (action (run ./discover_libintl.exe)))
+
+(rule
+ (targets config_gtk.cflags config_gtk.libs)
+ (action (run ./discover_gtk.exe)))
