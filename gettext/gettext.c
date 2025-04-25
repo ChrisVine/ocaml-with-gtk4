@@ -32,7 +32,7 @@ CAMLprim value gettext_stub(value in) {
 
 #else
 
-CAMLprime value setup_stub(value unit) {
+CAMLprim value setup_stub(value unit) {
   setlocale(LC_ALL,"");
   return Val_false;
 }
