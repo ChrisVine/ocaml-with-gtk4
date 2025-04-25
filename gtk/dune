@@ -7,4 +7,6 @@
   (names start_gtk mainloop object mainwindow scrolled_text)
   (include_dirs ../config) ;; for config.h
   (flags :standard -std=c99 -O2 -I. (:include ../config/config_gtk.cflags)))
- (c_library_flags (:include ../config/config_gtk.libs)))
+ (c_library_flags
+  (:include ../config/config_gtk.libs)
+  (:include ../config/config_intl.libs)))
