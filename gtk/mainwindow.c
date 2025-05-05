@@ -10,14 +10,16 @@
 #include <caml/alloc.h>     // for caml_alloc()
 #include <caml/mlvalues.h>  // for value/type conversions (ocaml->C and C->ocaml)
 #include <caml/memory.h>    // for GC protection macros
-#include <caml/callback.h>  // for caml_named_value(), caml_callback_exn() and Is_exception_result
+#include <caml/callback.h>  // for caml_named_value()
 #include <caml/threads.h>   // for caml_release_runtime_system() and
                             // caml_acquire_runtime_system()
 
+#include <glib.h>
 #include <glib-object.h>
 
 #include <mainwindow.h>
 #include <scrolled_text.h>
+#include <callback_exn.h>
 
 /* We cannot call CAMLparam or CAMLlocal unless the runtime has been
    acquired.  This means that without a wrapper the calls to CAMLparam
@@ -35,18 +37,14 @@ static void button_clicked_func_impl(gpointer data) {
   *((GtkScrolledWindow**)Data_abstract_val(v_scrolled_text)) = scrolled_text;
 
   /* 'cb' does not need protection from garbage collection as it is a
-      C pointer to a value type (and a constant in OCaml): the value
-      type is not crystalised until 'cb' is dereferenced when calling
-      caml_callback_exn().  caml_callback_exn() could trigger a
-      collection but by then it doesn't matter. */
+     C pointer to a value type (and a constant in OCaml): the value
+     type is not crystalised until 'cb' is dereferenced when calling
+     call_with_exn().  call_with_exn() could trigger a collection but
+     by then it doesn't matter. */
   char* name = "button-clicked-cb";
   static const value* cb = NULL;
   if (cb == NULL) cb = caml_named_value(name);
-  if (cb != NULL) {
-    if (Is_exception_result(caml_callback_exn(*cb, v_scrolled_text)))
-      g_critical("Ocaml callback %s threw an exception in button_clicked_func()",
-                 name);
-  }
+  if (cb != NULL) call_with_exn(*cb, v_scrolled_text, name);
   else g_critical("Ocaml callback %s has not been registered (button_clicked_func()))",
                   name);
   CAMLreturn0;
@@ -72,16 +70,12 @@ static void win_task1_func_impl(gpointer data) {
   /* 'cb' does not need protection from garbage collection as it is a
      C pointer to a value type (and a constant in OCaml): the value
      type is not crystalised until 'cb' is dereferenced when calling
-     caml_callback_exn().  caml_callback_exn() could trigger a
-     collection but by then it doesn't matter. */
+     call_with_exn().  call_with_exn() could trigger a collection but
+     by then it doesn't matter. */
   char* name = "win-task1-cb";
   static const value* cb = NULL;
   if (cb == NULL) cb = caml_named_value(name);
-  if (cb != NULL) {
-    if (Is_exception_result(caml_callback_exn(*cb, v_scrolled_text)))
-      g_critical("Ocaml callback %s threw an exception in win_task1_func()",
-                 name);
-  }
+  if (cb != NULL) call_with_exn(*cb, v_scrolled_text, name);
   else g_critical("Ocaml callback %s has not been registered (win_task1_func()))",
                   name);
   CAMLreturn0;
@@ -107,16 +101,12 @@ static void win_task2_func_impl(gpointer data) {
   /* 'cb' does not need protection from garbage collection as it is a
      C pointer to a value type (and a constant in OCaml): the value
      type is not crystalised until 'cb' is dereferenced when calling
-     caml_callback_exn().  caml_callback_exn() could trigger a
-     collection but by then it doesn't matter. */
+     call_with_exn().  call_with_exn() could trigger a collection but
+     by then it doesn't matter. */
   char* name = "win-task2-cb";
   static const value* cb = NULL;
   if (cb == NULL) cb = caml_named_value(name);
-  if (cb != NULL) {
-    if (Is_exception_result(caml_callback_exn(*cb, v_label)))
-      g_critical("Ocaml callback %s threw an exception in win_task2_func()",
-                 name);
-  }
+  if (cb != NULL) call_with_exn(*cb, v_label, name);
   else g_critical("Ocaml callback %s has not been registered (win_task2_func()))",
                   name);
   CAMLreturn0;

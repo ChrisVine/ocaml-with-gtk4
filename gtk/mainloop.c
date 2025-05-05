@@ -2,25 +2,23 @@
 
 #define CAML_NAME_SPACE 1
 #include <caml/mlvalues.h>  // for value/type conversions (ocaml->C and C->ocaml)
-#include <caml/memory.h>    // for GC realloc protection macros in Ocaml callbacks
-#include <caml/callback.h>  // for caml_named_value(), caml_callback_exn() and Is_exception_result
+#include <caml/memory.h>    // for GC protection macros
+#include <caml/callback.h>  // for caml_named_value()
 #include <caml/threads.h>   // for caml_acquire_runtime_system() and
 			    // caml_release_runtime_system()
+
+#include <callback_exn.h>
 
 static gboolean callback_func(const char* c_name) {
   caml_acquire_runtime_system();
   /* 'cb' does not need protection from garbage collection as it is a
      C pointer to a value type (and a constant in OCaml): the value
      type is not crystalised until 'cb' is dereferenced when calling
-     caml_callback_exn().  caml_callback_exn() could trigger a
-     collection but by then it doesn't matter. */
+     call_with_exn().  call_with_exn() could trigger a collection but
+     by then it doesn't matter. */
   /* we cannot cache cb, as it depends on the value of c_name */
   const value* cb = caml_named_value(c_name);
-  if (cb != NULL) {
-    if (Is_exception_result(caml_callback_exn(*cb, Val_unit)))
-      g_critical("Ocaml callback %s threw an exception in callback_func()",
-		 c_name);
-  }
+  if (cb != NULL) call_with_exn(*cb, Val_unit, c_name);
   else g_critical("Ocaml callback %s has not been registered (callback_func())",
 		  c_name);
   caml_release_runtime_system();

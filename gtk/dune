@@ -4,7 +4,7 @@
  (modules gtk mainloop mainwindow object scrolled_text)
  (foreign_stubs
   (language c)
-  (names start_gtk mainloop object mainwindow scrolled_text)
+  (names start_gtk mainloop object mainwindow scrolled_text callback_exn)
   (include_dirs ../config) ;; for config.h
   (flags :standard -std=c99 -O2 -I. (:include ../config/config_gtk.cflags)))
  (c_library_flags
