@@ -2,6 +2,7 @@
 
 #include <glib.h>
 
+#define CAML_NAME_SPACE 1
 #include <caml/mlvalues.h>  // for value type, Is_exception_result and
 			    // Extract_exception
 #include <caml/memory.h>    // for GC protection macros
@@ -16,7 +17,7 @@ void call_with_exn(value f, value arg, const char* name) {
   CAMLparam2(f, arg);
   CAMLlocal1(res);
 
-  res = caml_callback_exn(f, arg)  ;
+  res = caml_callback_exn(f, arg);
   if (Is_exception_result(res)) {
     res = Extract_exception(res);
     g_critical("Ocaml callback %s raised an exception: %s",
