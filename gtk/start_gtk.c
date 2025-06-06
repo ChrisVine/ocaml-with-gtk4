@@ -36,11 +36,11 @@ static void startup(GApplication* app) {
      application window (as in gnome), or depending on the environment
      may appear centrally, separated from application windows
      (possibly MacOS).  It can contain items from the GtkApplication's
-     action map (which will have the "app."  suffix), or from
+     action map (which will have the "app." prefix), or from
      individual windows' action maps (GtkApplicationWindow action maps
-     have the "win."  suffix).  If items from a window's action map
-     are included and the item is not available for the window in
-     focus, the menu item will be greyed out. */
+     have the "win." prefix).  If items from a window's action map are
+     included and the item is not available for the window in focus,
+     the menu item will be greyed out. */
 
   /* first add the actions to the GtkApplication's action map */
   g_action_map_add_action_entries(G_ACTION_MAP(app),
