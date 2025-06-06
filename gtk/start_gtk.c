@@ -66,13 +66,12 @@ static void startup(GApplication* app) {
 
 static void activate(GtkApplication* app, gpointer data) {
   GtkWindow* window = gtk_application_get_active_window(app);
-  if (window != NULL) gtk_window_present(window);
-  else {
+  if (window == NULL) {
     window = (GtkWindow*)mainwindow_new(app);
     gtk_window_set_title(window, "example-prog");
     gtk_window_set_default_size(window, 600, 400);
-    gtk_window_present(window);
   }
+  gtk_window_present(window);
 }
 
 static int start_gtk(int c_argc, char** c_argv) {
