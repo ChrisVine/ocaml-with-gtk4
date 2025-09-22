@@ -1,4 +1,5 @@
 (executable
  (name main)
  (modes (best exe))
+ (promote (into ..))
  (libraries threads gtk gettext))

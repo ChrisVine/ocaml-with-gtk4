@@ -9,7 +9,7 @@ LOCALEDIR = $(PREFIX)/share/locale
 example-prog:
 	echo '(-DLOCALEDIR=$(LOCALEDIR))' > gettext/config.locale; \
 	dune build --profile release && \
-	cp -p _build/default/src/main.exe example-prog && \
+	mv main.exe example-prog && \
 	chmod 0755 example-prog
 
 install:
