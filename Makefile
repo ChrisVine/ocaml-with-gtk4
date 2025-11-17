@@ -21,9 +21,9 @@ install:
 
 uninstall:
 	rm -f $(PREFIX)/bin/example-prog; \
-	cd locale ; for files in *; \
+	(cd locale ; for files in *; \
 	do rm -f $(LOCALEDIR)/$$files/LC_MESSAGES/example-prog.mo; \
-	done
+	done)
 
 pot:
 	xgettext -o po/example-prog.pot gtk/*.c; \
